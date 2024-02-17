@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1092723928362",
+    "project_id": "notification-511a7",
+    "storage_bucket": "notification-511a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092723928362:android:c9b0ba407fe62a18d3c253",
+        "android_client_info": {
+          "package_name": "com.example.medcare3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn9Hf8brz6Dt2jaf6MP4vLJKlOlsRX_gw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
