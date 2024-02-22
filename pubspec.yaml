@@ -40,11 +40,14 @@ dependencies:
   flare_flutter:
   flutter_launcher_icons:
   date_time_picker: ^2.1.0
-  flutter_local_notifications:
+  flutter_local_notifications: ^13.0.0
   firebase_core: ^2.25.4
   firebase_messaging: ^14.7.15
   timezone:
   android_alarm_manager_plus:
+  moor_flutter:
+  build_runner:
+  moor_generator:
 
 
 flutter_launcher_icons:
@@ -64,6 +67,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_native_splash:
+  analyzer:
+
 
 flutter_native_splash:
   image: assets/icons/playstore.png

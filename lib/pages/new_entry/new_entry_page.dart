@@ -8,6 +8,7 @@ import 'package:medcare3/global_bloc.dart';
 import 'package:medcare3/home_page.dart';
 import 'package:medcare3/models/errors.dart';
 import 'package:medcare3/models/medicine.dart';
+import 'package:medcare3/notification3.dart';
 import 'package:medcare3/pages/new_entry/new_entry_bloc.dart';
 import 'package:medcare3/pages/success_screen/success_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -29,7 +30,7 @@ class NewEntryPage extends StatefulWidget {
 class _NewEntryPageState extends State<NewEntryPage> {
   late TextEditingController nameController;
   late TextEditingController dosageController;
-  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationservice;
   late NewEntryBloc _newEntryBloc;
   late GlobalKey<ScaffoldState> _scaffoldKey;
 
@@ -46,10 +47,10 @@ class _NewEntryPageState extends State<NewEntryPage> {
     super.initState();
     nameController = TextEditingController();
     dosageController = TextEditingController();
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationservice = FlutterLocalNotificationsPlugin();
     _newEntryBloc = NewEntryBloc();
     _scaffoldKey = GlobalKey<ScaffoldState>();
-    initializeNotifications();
+    //initializeNotifications();
     initializeErrorListen();
   }
 
@@ -152,7 +153,7 @@ class _NewEntryPageState extends State<NewEntryPage> {
                 ),
                 const PanelTitle(title: 'Interval Selection', isRequired: true),
                 const IntervalSelection(),
-                const PanelTitle(title: 'Starting Time', isRequired: true),
+               // const PanelTitle(title: 'Starting Time', isRequired: true),
                 const SelectTime(),
                 SizedBox(
                   height: 2.h,
@@ -241,7 +242,7 @@ class _NewEntryPageState extends State<NewEntryPage> {
                         globalBloc.updateMedicineList(newEntryMedicine);
 
                         //schedule notification
-                        scheduleNotification(newEntryMedicine);
+                        //scheduleNotification(newEntryMedicine);
 
                         Navigator.push(
                             context,
@@ -303,84 +304,82 @@ class _NewEntryPageState extends State<NewEntryPage> {
     return ids;
   }
 
-  initializeNotifications() async {
-    var initializationSettingsAndroid =
-    const AndroidInitializationSettings('playstore');
+  // Future<void> initializeNotifications() async {
+  //   AndroidInitializationSettings androidInitializationSettings =
+  //   const AndroidInitializationSettings('playstore');
+  //   InitializationSettings settings =
+  //   InitializationSettings(android: androidInitializationSettings);
+  //
+  //   await flutterLocalNotificationservice.initialize(settings);
+  // }
+  // Future onSelectNotification(String? payload) async {
+  //   if (payload != null) {
+  //     debugPrint('notification payload: $payload');
+  //   }
+  //   await Navigator.push(
+  //       context, MaterialPageRoute(builder: (context) => const HomePage()));
+  // }
 
-    var initializationSettingsIOS = const DarwinInitializationSettings();
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
-  Future onSelectNotification(String? payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
-    }
-    await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const HomePage()));
-  }
-
-Future<void> scheduleNotification(Medicine medicine) async {
-    try {
-      var hour = int.parse(medicine.startTime![0] + medicine.startTime![1]);
-      var ogValue = hour;
-      var minute = int.parse(medicine.startTime![2] + medicine.startTime![3]);
-
-      var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
-        'repeatDailyAtTime channel id',
-        'repeatDailyAtTime channel name',
-        importance: Importance.max,
-        ledColor: Color(0xFF00FF00), // change as needed
-        ledOffMs: 1000,
-        ledOnMs: 1000,
-        enableLights: true,
-      );
-
-      var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-      );
-
-      for (int i = 0; i < (24 / medicine.interval!).floor(); i++) {
-        if (hour + (medicine.interval! * i) > 23) {
-          hour = hour + (medicine.interval! * i) - 24;
-        } else {
-          hour = hour + (medicine.interval! * i);
-        }
-
-        tz.TZDateTime scheduledTime = tz.TZDateTime(
-          tz.local,
-          DateTime.now().year,
-          DateTime.now().month,
-          DateTime.now().day,
-          hour,
-          minute,
-        );
-
-        print('Scheduling notification at $hour:$minute');
-
-        await flutterLocalNotificationsPlugin.zonedSchedule(
-          int.parse(medicine.notificationIDs![i]),
-          'Reminder: ${medicine.medicineName}',
-          medicine.medicineType.toString() != MedicineType.None.toString()
-              ? 'It is time to take your ${medicine.medicineType!.toLowerCase()}, according to schedule'
-              : 'It is time to take your medicine, according to schedule',
-          scheduledTime,
-          platformChannelSpecifics,
-          // ignore: deprecated_member_use
-          androidAllowWhileIdle: true,
-          uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-          payload: 'medication',
-          matchDateTimeComponents: DateTimeComponents.time,
-        );
-        hour = ogValue;
-      }
-    } catch (e) {
-      print('Error scheduling notification: $e');
-    }
-  }
-
+// Future<void> scheduleNotification(Medicine medicine) async {
+//     try {
+//       var hour = int.parse(medicine.startTime![0] + medicine.startTime![1]);
+//       var ogValue = hour;
+//       var minute = int.parse(medicine.startTime![2] + medicine.startTime![3]);
+//
+//       var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+//         'repeatDailyAtTime channel id',
+//         'repeatDailyAtTime channel name',
+//         importance: Importance.max,
+//         ledColor: Color(0xFF00FF00), // change as needed
+//         ledOffMs: 1000,
+//         ledOnMs: 1000,
+//         enableLights: true,
+//       );
+//
+//       var platformChannelSpecifics = NotificationDetails(
+//         android: androidPlatformChannelSpecifics,
+//       );
+//
+//       for (int i = 0; i < (24 / medicine.interval!).floor(); i++) {
+//         if (hour + (medicine.interval! * i) > 23) {
+//           hour = hour + (medicine.interval! * i) - 24;
+//         } else {
+//           hour = hour + (medicine.interval! * i);
+//         }
+//
+//         tz.TZDateTime scheduledTime = tz.TZDateTime(
+//           tz.local,
+//           DateTime.now().year,
+//           DateTime.now().month,
+//           DateTime.now().day,
+//           hour,
+//           minute,
+//         );
+//
+//         print('Scheduling notification at $hour:$minute');
+//
+//         await flutterLocalNotificationsPlugin.zonedSchedule(
+//           int.parse(medicine.notificationIDs![i]),
+//           'Reminder: ${medicine.medicineName}',
+//           medicine.medicineType.toString() != MedicineType.None.toString()
+//               ? 'It is time to take your ${medicine.medicineType!.toLowerCase()}, according to schedule'
+//               : 'It is time to take your medicine, according to schedule',
+//           scheduledTime,
+//           platformChannelSpecifics,
+//           // ignore: deprecated_member_use
+//           androidAllowWhileIdle: true,
+//           uiLocalNotificationDateInterpretation:
+//           UILocalNotificationDateInterpretation.absoluteTime,
+//           payload: 'medication',
+//           matchDateTimeComponents: DateTimeComponents.time,
+//         );
+//         hour = ogValue;
+//       }
+//     } catch (e) {
+//       print('Error scheduling notification: $e');
+//     }
+//   }
+//
 // Future<void> scheduleNotification(Medicine medicine) async {
 //     var hour = int.parse(medicine.startTime![0] + medicine.startTime![1]);
 //     var ogValue = hour;
@@ -507,25 +506,25 @@ class _SelectTimeState extends State<SelectTime> {
   TimeOfDay _time = const TimeOfDay(hour: 0, minute: 00);
   bool _clicked = false;
 
-  Future<TimeOfDay?> _selectTime() async {
-    final NewEntryBloc newEntryBloc =
-    Provider.of<NewEntryBloc>(context, listen: false);
-
-    final TimeOfDay? picked =
-    await showTimePicker(context: context, initialTime: _time);
-
-    if (picked != null && picked != _time) {
-      setState(() {
-        _time = picked;
-        _clicked = true;
-
-        //update state via provider, we will do later
-        newEntryBloc.updateTime(convertTime(_time.hour.toString()) +
-            convertTime(_time.minute.toString()));
-      });
-    }
-    return picked;
-  }
+  // Future<TimeOfDay?> _selectTime() async {
+  //   final NewEntryBloc newEntryBloc =
+  //   Provider.of<NewEntryBloc>(context, listen: false);
+  //
+  //   final TimeOfDay? picked =
+  //   await showTimePicker(context: context, initialTime: _time);
+  //
+  //   if (picked != null && picked != _time) {
+  //     setState(() {
+  //       _time = picked;
+  //       _clicked = true;
+  //
+  //       //update state via provider, we will do later
+  //       newEntryBloc.updateTime(convertTime(_time.hour.toString()) +
+  //           convertTime(_time.minute.toString()));
+  //     });
+  //   }
+  //   return picked;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -537,12 +536,16 @@ class _SelectTimeState extends State<SelectTime> {
           style: TextButton.styleFrom(
               backgroundColor: kPrimaryColor, shape: const StadiumBorder()),
           onPressed: () async {
-            await _selectTime();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const Notifi()));
+
           },
           child: Center(
             child: Text(
               _clicked == false
-                  ? "Select Time"
+                  ? "Schedule Notification"
                   : "${convertTime(_time.hour.toString())}:${convertTime(_time.minute.toString())}",
               style: Theme.of(context)
                   .textTheme
@@ -555,6 +558,7 @@ class _SelectTimeState extends State<SelectTime> {
     );
   }
 }
+
 
 class IntervalSelection extends StatefulWidget {
   const IntervalSelection({Key? key}) : super(key: key);

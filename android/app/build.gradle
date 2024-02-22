@@ -50,7 +50,7 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
         //noinspection EditedTargetSdkVersion,ExpiredTargetSdkVersion
-        targetSdkVersion 30
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -69,8 +69,8 @@ flutter {
 }
 
 dependencies {
-    implementation "androidx.annotation:annotation:1.7.1"
-    implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "androidx.appcompat:appcompat:1.6.1"
+//    implementation "androidx.annotation:annotation:1.7.1"
+//    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+//    implementation "androidx.appcompat:appcompat:1.6.1"
 
 }

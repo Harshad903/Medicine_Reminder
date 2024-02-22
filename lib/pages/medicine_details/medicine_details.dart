@@ -251,11 +251,11 @@ class ExtendedSection extends StatelessWidget {
           fieldInfo:
           'Every ${medicine!.interval} hours | ${medicine!.interval == 24 ? "One time a day" : "${(24 / medicine!.interval!).floor()} times a day"}',
         ),
-        ExtendedInfoTab(
-          fieldTitle: 'Start Time',
-          fieldInfo:
-          '${medicine!.startTime![0]}${medicine!.startTime![1]}:${medicine!.startTime![2]}${medicine!.startTime![3]}',
-        ),
+        // ExtendedInfoTab(
+        //   fieldTitle: 'Start Time',
+        //   fieldInfo:
+        //   '${medicine!.startTime![0]}${medicine!.startTime![1]}:${medicine!.startTime![2]}${medicine!.startTime![3]}',
+        // ),
       ],
     );
   }

@@ -10,9 +10,10 @@ import 'package:medcare3/push_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'firebase_options.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:date_time_picker/date_time_picker.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
-
+import 'package:timezone/data/latest.dart' as tz;
 
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -24,12 +25,12 @@ Future _firebaseBackgroundMessage(RemoteMessage message) async {
 }
 
 void main() async{
-
+  WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
   // Set the local timezone
   tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
 
-  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
