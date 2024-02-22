@@ -15,7 +15,5 @@ This Flutter application helps users manage their medications by providing remin
   <br>
 
 <img src="https://github.com/Harshad903/Medicine_Reminder/assets/160331910/a66fe675-b84d-43f7-b6c6-7690c0ae5ac8" alt="Screenshot" style="height:25%; width:25%">
-<img src="https://github.com/Harshad903/Medicine_Reminder/assets/160331910/c2b18905-e4ee-46a8-80cf-6a1821c4c48d" alt="Screenshot" style="height:25%; width:25%">
-<img src="https://github.com/Harshad903/Medicine_Reminder/assets/160331910/7c57acbb-12ff-4a5d-97cb-2166f4c3f779" alt="Screenshot" style="height:25%; width:25%">
 <img src="https://github.com/Harshad903/Medicine_Reminder/assets/160331910/0ae60291-c957-44cf-88bd-09cc0d69902a" alt="Screenshot" style="height:25%; width:25%">
 
